@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Jira Ticket Linker</title>
+    <script src="js/jquery-1.11.2.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/popup.js"></script>
+    <style type="text/css">
+      input, button {
+        width: 300px;
+        display: block;
+        padding: 5px 2px;
+        margin-bottom: 5px;
+      }
+      button {
+        width: 153px;
+        background-color: #000;
+        color: #FFF;
+        border: 0;
+        padding: 7px 0;
+        float: left;
+      }
+      #save {
+        margin-left: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <span> 
+    <input id="pattern" placeholder="Regex pattern"/>
+    <input id="url" placeholder="Url"/>
+    <button id="reset">Reset</button>
+    <button id="save">Save</button>
+  </body>
+</html>
+
