@@ -2,7 +2,7 @@ var el = {};
 
 function init() {
 	el.pattern = $('#pattern');
-  el.url = $('#url');	
+  el.url = $('#url');
 	$('#save').click(clickSave);
   $('#reset').click(clickReset);
   el.pattern.keypress(function(e) {
@@ -27,14 +27,14 @@ function clickReset() {
     pattern : "\\w+-\\d+",
     url : "https://atlassian.net/browse/"
   }
-  setValues(obj); 
-  initViews(); 
+  setValues(obj);
+  initViews();
 }
 
 function initViews() {
   getValue(["pattern", "url"], function (values) {
-    el.pattern.val(values.pattern);
-    el.url.val(values.url);
+    el.pattern.val(values.pattern || set.pattern);
+    el.url.val(values.url || set.url);
   });
 }
 
