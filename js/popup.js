@@ -5,6 +5,12 @@ function init() {
   el.url = $('#url');
 	$('#save').click(clickSave);
   $('#reset').click(clickReset);
+	el.url.keypress(function(e) {
+		if (e.which == 13) {
+			clickSave();
+			return false;
+		}
+	})
   el.pattern.keypress(function(e) {
     if (e.which == 13) {
       clickSave();
