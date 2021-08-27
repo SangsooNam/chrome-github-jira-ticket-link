@@ -3,7 +3,7 @@
 
   "name": "GitHub JIRA Ticket Linker",
   "description": "",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "content_scripts": [{
     "matches": ["*://*/*/pull*"],
     "js":      ["js/storage.js", "js/jquery-1.11.2.min.js", "js/content.js"]
