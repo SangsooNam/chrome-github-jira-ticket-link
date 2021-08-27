@@ -6,7 +6,7 @@
   "version": "1.0.5",
   "content_scripts": [{
     "matches": ["*://*/*/pull*"],
-    "js":      ["js/global.js", "js/jquery-1.11.2.min.js", "js/content.js"]
+    "js":      ["js/storage.js", "js/jquery-1.11.2.min.js", "js/content.js"]
     }],
   "permissions": ["storage"],
   "browser_action": {

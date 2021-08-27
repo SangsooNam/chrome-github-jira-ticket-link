@@ -5,46 +5,35 @@ function init() {
   el.url = $('#url');
 	$('#save').click(clickSave);
   $('#reset').click(clickReset);
-	el.url.keypress(function(e) {
-		if (e.which == 13) {
-			clickSave();
-			return false;
-		}
-	})
-  el.pattern.keypress(function(e) {
-    if (e.which == 13) {
-      clickSave();
-      return false;
-    }
-  })
+	el.url.keypress(keypressSave)
+  el.pattern.keypress(keypressSave)
+	updateViews();
+}
+
+function keypressSave(e) {
+	if (e.which == 13) {
+		clickSave();
+		return false;
+	}
 }
 
 function clickSave() {
-	var obj = {
-    pattern : el.pattern.val(),
-    url : el.url.val()
-  }
-	setValues(obj);
+	setValues(el.pattern.val(), el.url.val());
   window.close();
 }
 
 function clickReset() {
-  var obj = {
-    pattern : "\\w+-\\d+",
-    url : "https://atlassian.net/browse/"
-  }
-  setValues(obj);
-  initViews();
+  clearValues();
+  updateViews();
 }
 
-function initViews() {
-  getValue(["pattern", "url"], function (values) {
-    el.pattern.val(values.pattern || set.pattern);
-    el.url.val(values.url || set.url);
+function updateViews() {
+  getValues(function (patternValue, urlValue) {
+    el.pattern.val(patternValue);
+    el.url.val(urlValue);
   });
 }
 
 $(document).ready(function() {
 	init();
-	initViews();
 });
