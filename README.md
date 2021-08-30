@@ -1,6 +1,6 @@
 # GitHub-JIRA Link Generator
 
-Chrome plugin to replace a pull request title to add a link to the Jira page
+Chrome extension to add a link to the JIRA ticket page on the pull request title. With this, you can easily navigate back to the JIRA ticket page from GitHub.
 
 ## How to use
 Click the plugin icon and set the `pattern` and the `url`. After refreshing the page, the matched title part will be converted to having a link.
