@@ -1,4 +1,4 @@
-# GitHub-JIRA Link Generator
+# GitHub JIRA Ticket Linker
 
 Chrome extension to add a link to the JIRA ticket page on the pull request title. With this, you can easily navigate back to the JIRA ticket page from GitHub.
 
