@@ -10,10 +10,32 @@ function replaceLink(pattern, url) {
   }
 }
 
-function init() {
+function replace() {
   getValues(function (patternValue, urlValue) {
     replaceLink(patternValue, urlValue);
   });
 }
 
-$(document).ready(init);
+$(document).ready(replace);
+
+
+var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+if (MutationObserver) {
+  var options = {
+    subtree: false,
+    attributes: true
+  };
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(e) {
+      console.log("A2");
+      if (e.attributeName == 'class') {
+        replace();
+      }
+    });
+  });
+
+  // Observe async loading. e.g. Navigate tabs, Click a pull request from pull requests view
+  $('.progress-pjax-loader').each(function() {
+    observer.observe(this, options);
+  });  
+}
