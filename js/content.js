@@ -27,7 +27,6 @@ if (MutationObserver) {
   };
   var observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(e) {
-      console.log("A2");
       if (e.attributeName == 'class') {
         replace();
       }
