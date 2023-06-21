@@ -1,40 +1,59 @@
 var replaceIntervalId;
 
-function replaceLink(pattern, url) {
-  let title = $('.gh-header-show .js-issue-title');
-  if (title.length) {
-    let targetUrl = url.startsWith("http") ? url : "http://" + url;
-    let re = new RegExp('(' + pattern + ')', 'i');
-    let text = title.text().replace(re,"<a target='_blank' href='" + targetUrl + "$1'>$1</a>")
-    title.html(text);
-  }
-}
+function waitForElm(selector) {
+  return new Promise(resolve => {
+      if (document.querySelector(selector)) {
+          return resolve(document.querySelector(selector));
+      }
 
-function replace() {
-  getValues(function (patternValue, urlValue) {
-    replaceLink(patternValue, urlValue);
+      const observer = new MutationObserver(mutations => {
+          if (document.querySelector(selector)) {
+              resolve(document.querySelector(selector));
+              observer.disconnect();
+          }
+      });
+
+      observer.observe(document.body, {
+          childList: true,
+          subtree: true
+      });
   });
 }
 
-$(document).ready(replace);
+function replace() {
+  getValues(function (pattern, url) {
+    waitForElm('.gh-header-show .js-issue-title').then((elm) => {
+      let targetUrl = url.startsWith("http") ? url : "http://" + url;
+      let re = new RegExp('(' + pattern + ')', 'i');
+      let text = $(elm).text().replace(re,"<a target='_blank' href='" + targetUrl + "$1'>$1</a>")
+      $(elm).html(text);
+    });
+  });
+}
+
+$(document).ready(() => {
+  replace();
+});
 
 
+// Handle a pull request link click case from the pull requests view.
 var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 if (MutationObserver) {
+  var previousUrl = '';
   var options = {
-    subtree: false,
-    attributes: true
+    subtree: true,
+    childList: true
   };
   var observer = new MutationObserver(function(mutations) {
     mutations.forEach(function(e) {
-      if (e.attributeName == 'class') {
-        replace();
+      if (location.href !== previousUrl) {
+        previousUrl = location.href;
+        if (location.href.includes("/pull/")) {
+          replace();
+        }
       }
     });
   });
 
-  // Observe async loading. e.g. Navigate tabs, Click a pull request from pull requests view
-  $('.progress-pjax-loader').each(function() {
-    observer.observe(this, options);
-  });  
+  observer.observe(document, options);
 }
