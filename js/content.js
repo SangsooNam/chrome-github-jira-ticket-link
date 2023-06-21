@@ -1,11 +1,11 @@
 var replaceIntervalId;
 
 function replaceLink(pattern, url) {
-  let title = $('span.js-issue-title');
+  let title = $('.gh-header-show .js-issue-title');
   if (title.length) {
     let targetUrl = url.startsWith("http") ? url : "http://" + url;
-    let re = new RegExp('(.*?)(' + pattern + ')(.*?)', 'i');
-    let text = title.text().replace(re,"$1<a target='_blank' href='" + targetUrl + "$2'>$2</a>$3")
+    let re = new RegExp('(' + pattern + ')', 'i');
+    let text = title.text().replace(re,"<a target='_blank' href='" + targetUrl + "$1'>$1</a>")
     title.html(text);
   }
 }
