@@ -1,4 +1,5 @@
-var replaceIntervalId;
+// Pull request URL pattern
+const PR_URL_PATTERN = /\/pull\/\d+/;
 
 function waitForElm(selector) {
   return new Promise(resolve => {
@@ -31,29 +32,17 @@ function replace() {
   });
 }
 
+// Initialize on page load
 $(document).ready(() => {
-  replace();
+  chrome.runtime.sendMessage({ type: 'CONTENT_SCRIPT_READY' });
 });
 
-
-// Handle a pull request link click case from the pull requests view.
-var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-if (MutationObserver) {
-  var previousUrl = '';
-  var options = {
-    subtree: true,
-    childList: true
-  };
-  var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(e) {
-      if (location.href !== previousUrl) {
-        previousUrl = location.href;
-        if (location.href.includes("/pull/")) {
-          replace();
-        }
-      }
-    });
-  });
-
-  observer.observe(document, options);
-}
+// Listen for URL change messages from background script
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === 'URL_CHANGED') {
+    // Check if URL matches pull request pattern
+    if (PR_URL_PATTERN.test(message.url)) {
+      replace();
+    }
+  }
+});
